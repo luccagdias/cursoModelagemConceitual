@@ -2,18 +2,26 @@ package com.luccadias.cursomc.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
 import com.luccadias.cursomc.domain.Cliente;
-import com.luccadias.cursomc.domain.enums.TipoCliente;
 
 public class ClienteDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private Integer id;
+	
+	@NotEmpty(message = "Preenchimento obrigatório!")
+	@Length(min = 5, max = 120, message = "O tamanho deve ser entre 5 ee 120 caracteres!")
 	private String nome;
+	
+	@NotEmpty(message = "Preenchimento obrigatório!")
+	@Email(message = "E-mail inválido!")
 	private String email;
-	private String cpfCnpj;
-	private Integer tipo;
 
 	public ClienteDTO() {
 
@@ -23,8 +31,6 @@ public class ClienteDTO implements Serializable {
 		this.id = obj.getId();
 		this.nome = obj.getNome();
 		this.email = obj.getEmail();
-		this.cpfCnpj = obj.getCpfCnpj();
-		this.tipo = obj.getTipo().getCod();
 	}
 
 	public Integer getId() {
@@ -49,22 +55,6 @@ public class ClienteDTO implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public String getCpfCnpj() {
-		return cpfCnpj;
-	}
-
-	public void setCpfCnpj(String cpfCnpj) {
-		this.cpfCnpj = cpfCnpj;
-	}
-
-	public TipoCliente getTipo() {
-		return TipoCliente.toEnum(tipo);
-	}
-
-	public void setTipo(TipoCliente tipo) {
-		this.tipo = tipo.getCod();
 	}
 	
 }
