@@ -23,6 +23,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.luccadias.cursomc.domain.Cliente;
 import com.luccadias.cursomc.dto.ClienteDTO;
+import com.luccadias.cursomc.dto.ClienteNewDTO;
 import com.luccadias.cursomc.services.ClienteService;
 
 @RestController
@@ -41,10 +42,9 @@ public class ClienteResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Void> insert(@RequestBody ClienteDTO objDto) {
-		
-		Cliente obj = service.formDTO(objDto);
-		service.insert(obj);
+	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDto) {
+		Cliente obj = service.fromDTO(objDto);
+		obj = service.insert(obj);
 		
 		URI uri = ServletUriComponentsBuilder
 											.fromCurrentRequest()
@@ -58,7 +58,7 @@ public class ClienteResource {
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Void> update(@Valid @RequestBody ClienteDTO objDto, @PathVariable Integer id) {
 		
-		Cliente obj = service.formDTO(objDto);
+		Cliente obj = service.fromDTO(objDto);
 		
 		obj.setId(id);
 		obj = service.update(obj);
